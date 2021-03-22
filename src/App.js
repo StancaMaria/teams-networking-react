@@ -33,7 +33,7 @@ class App extends Component {
     return (
       <div>
         <h1>Teams Networking</h1>
-        <PersonTable teams={this.state.teams} border={1} />
+        <PersonTable teams={this.state.teams} border={10} />
       </div>
     );
   }
