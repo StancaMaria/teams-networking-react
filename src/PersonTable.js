@@ -1,6 +1,6 @@
 import React from 'react';
-export const PersonTable = ({teams}) => (
-    <table id='list' >
+export const PersonTable = ( props) => (
+    <table >
         <thead>
             <tr>
                 <th>First Name</th>
@@ -10,7 +10,7 @@ export const PersonTable = ({teams}) => (
             </tr>
         </thead>
         <tbody>
-            {teams.map((person, i) => (
+            {props.teams.map((person, i) => (
             <tr key={i}>
             <td>{person.firstName}</td>
             <td>{person.lastName}</td>
