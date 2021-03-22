@@ -14,28 +14,19 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.warn('mount');
-    setTimeout(() => {
-      console.warn("loaded");
-      this.setState({
-        teams: [
-          {
-          "id": "a123",
-          "firstName": "Stanca",
-          "lastName": "Stirb",
-          "gitHub": "StancaMaria"
-        },
-        {
-          "id": "b564",
-          "firstName": "Matei",
-          "lastName": "Nicolae",
-          "gitHub": "nmatei",
-          }
-        ]
-      })
-     }, 2000);
-
+    this.load();
   }
+
+
+  load() {
+    fetch("http://localhost:3000/teams-json")
+        .then(res => res.json())
+        .then(teams => {
+          this.setState({
+            teams
+          })
+        });
+}
 
   render() {
     console.debug(this.state.teams)
