@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import './App.css';
 import { PersonTable } from "./PersonTable";
 
@@ -9,6 +10,7 @@ class App extends Component {
       persons: [],
       date: new Date().toString()
     }
+    console.warn('props', props);
   }
 
   componentDidMount() {
@@ -22,20 +24,14 @@ class App extends Component {
   }
 
   load() {
-    fetch("http://localhost:3000/persons-json")
-      .then(res => res.json())
-      .then(persons => {
-        this.setState({
-          persons
-        });
-      });
+    
   }
 
-  add(persons) {
-    console.warn('team', team);
+  add(person) {
+    console.warn('person', person);
     document.getElementById('main-form').reset();
 
-    fetch("http://localhost:3000/persons-json/create", {
+    fetch("http://localhost:3000/team-json/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -46,10 +42,10 @@ class App extends Component {
       .then(r => {
         console.warn(r);
         if (r.success) {
-          person.id = r.id;
-          const teams = this.state.persons.concat(persons);
+          team.id = r.id;
+          const person = this.state.person.concat(person);
           this.setState({
-            persons
+           persons
           });
           //this.load();
         }
@@ -57,7 +53,7 @@ class App extends Component {
   }
 
   remove(id) {
-    fetch("http://localhost:3000/persons-json/delete", {
+    fetch("http://localhost:3000/teams-json/delete", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -69,16 +65,15 @@ class App extends Component {
   }
   
   render() {
-    console.debug(this.state.persons);
     return (
       <div>
         <h1>Teams Networking</h1>
         <div>Search</div>
-        <PersonsTable 
-          persons={this.state.persons}
+        <TeamsTable 
+          persons={this.props.persons}
           border={1}
-          onSubmit={person => {
-            this.add(person);
+          onSubmit={team => {
+            this.add(team);
           }}
           onDelete={id => {
             this.remove(id);
@@ -90,4 +85,13 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  console.info('map state to props', state);
+  return {
+    persons: state.persons
+  }
+};
+
+const AppContainer = connect(mapStateToProps)(App);
+
+export default AppContainer;

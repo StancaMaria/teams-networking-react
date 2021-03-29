@@ -3,18 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 const rootReducer = (state = { persons: [] }, action) => {
   console.warn('rootReducer', state, action);
-  switch (action.type) {
+  switch (action.type){
     case 'PERSONS_LOADED': {
       return {
-        persons: action.persons
+        persons: action.teams
       }
     }
-  };
-  default:
-return state;
+    default:
+      return state;
+  }
 };
 
 const store = createStore(rootReducer);
@@ -22,16 +24,21 @@ console.warn('store', store);
 
 store.subscribe(() => {
   console.warn('data changed', store.getState());
-  //
 })
 
-store.dispatch({ type: 'PERSONS LOADED', persons: [1, 2, 3] })
-store.dispatch({type: 'TEAMS_LOADED_X', teams: [4,5] })
-  
-  ReactDOM.render(
-  <React.StrictMode>
+function load() {
+  fetch("http://localhost:3000/teams-json")
+    .then(res => res.json())
+    .then(teams => {
+      store.dispatch({ type: 'PERSONS_LOADED', teams });
+    });
+}
+load();
+
+ReactDOM.render(
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 

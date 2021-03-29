@@ -21,7 +21,7 @@ function getValues() {
         <thead>
           <tr>
             <th>firstName</th>
-            <th>lastName/th>
+            <th>lastName</th>
             <th>gitHub</th>
             <th></th>
           </tr>
