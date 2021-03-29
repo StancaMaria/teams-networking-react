@@ -4,7 +4,31 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
+const rootReducer = (state = { persons: [] }, action) => {
+  console.warn('rootReducer', state, action);
+  switch (action.type) {
+    case 'PERSONS_LOADED': {
+      return {
+        persons: action.persons
+      }
+    }
+  };
+  default:
+return state;
+};
+
+const store = createStore(rootReducer);
+console.warn('store', store);
+
+store.subscribe(() => {
+  console.warn('data changed', store.getState());
+  //
+})
+
+store.dispatch({ type: 'PERSONS LOADED', persons: [1, 2, 3] })
+store.dispatch({type: 'TEAMS_LOADED_X', teams: [4,5] })
+  
+  ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
